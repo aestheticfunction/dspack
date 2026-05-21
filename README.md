@@ -4,9 +4,9 @@
 
 ---
 
-> **Status: Pre-draft · v0.1 spec in development.**
+> **Status: v0.1 draft available.**
 >
-> The specification document does not yet exist. This repository is where the spec will be designed and maintained. Contributions to the design are welcome at any stage.
+> The first draft of the specification is published at [`spec/dspack-v0.1.md`](./spec/dspack-v0.1.md), with a matching [JSON Schema](./schema/dspack.v0.1.schema.json) and a [shadcn/ui reference example](./examples/shadcn-ui.dspack.json). This is a draft — breaking changes may occur before v1.0. Contributions to the design are welcome at any stage.
 
 ---
 
@@ -172,8 +172,8 @@ The following milestones represent the current intended direction. They are not 
 | Milestone | Description |
 |-----------|-------------|
 | **Schema design conversation** | Structured discussion to establish core vocabulary, structural constraints, and extensibility model for v0.1 |
-| **v0.1 spec draft** | First complete draft of the dspack specification, published in `spec/` |
-| **shadcn/ui example dspack** | A reference dspack file for the [shadcn/ui](https://ui.shadcn.com) component library, for testing implementations and demonstrating the format |
+| **v0.1 spec draft** | First complete draft of the dspack specification, published in [`spec/`](./spec/dspack-v0.1.md) — _draft available_ |
+| **shadcn/ui example dspack** | A reference dspack file for the [shadcn/ui](https://ui.shadcn.com) component library, for testing implementations and demonstrating the format — _[draft available](./examples/shadcn-ui.dspack.json)_ |
 | **ds-mcp v0 release** | First release of the reference implementation, validated against the v0.1 spec |
 | **Community RFCs** | Open RFC process for proposing additions and changes to the spec |
 | **v1.0 spec stabilization** | First stable, versioned release of the specification; breaking changes require a formal process after this point |
@@ -256,6 +256,6 @@ dspack was created by [Ryan Dombrowski](https://github.com/ryandmonk) ([LinkedIn
 
 ## License
 
-Copyright 2026 Ryan Dombrowski.
+Copyright 2026 Aesthetic Function, LLC.
 
 Licensed under the Apache License, Version 2.0. See [LICENSE](./LICENSE) for the full text.
