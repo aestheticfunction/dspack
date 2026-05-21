@@ -1,10 +1,9 @@
 # spec/
 
-Versioned specification documents for dspack will live in this directory.
+Versioned specification documents for dspack live in this directory.
 
-Examples:
+## Current drafts
 
-- `spec/dspack-v0.1.md`
-- `spec/dspack-v1.0.md`
+- [`dspack-v0.1.md`](./dspack-v0.1.md) — v0.1 specification draft
 
-The specification itself is not drafted yet. Until the first draft exists, this directory serves as a placeholder for the versioned documents that will define the format.
+The v0.1 draft defines the document structure, tokens, components, patterns, anti-patterns, framework bindings, extensibility model, and ID conventions. It is a draft and may change before stabilization at v1.0.

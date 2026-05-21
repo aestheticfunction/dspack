@@ -16,5 +16,5 @@ A typical RFC should include:
 - The problem being addressed
 - Why existing approaches are insufficient
 - The proposed change
-- Compatibility considerations
+- Compatibility considerations (reference the [v0.1 spec](../spec/dspack-v0.1.md) and explain how the proposal interacts with existing fields and semantics)
 - Alternatives considered
