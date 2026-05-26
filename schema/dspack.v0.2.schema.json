@@ -34,6 +34,9 @@
     "tokens": {
       "type": "object",
       "description": "Token definitions organized by category.",
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9-]*$"
+      },
       "additionalProperties": {
         "$ref": "#/$defs/tokenCategory"
       }
@@ -262,7 +265,7 @@
           "description": "Token name within that category."
         }
       },
-      "additionalProperties": false
+      "additionalProperties": true
     },
     "componentEntry": {
       "type": "object",
@@ -422,9 +425,9 @@
         },
         "requiredAttributes": {
           "type": "array",
-          "description": "ARIA attributes that must be present for correct usage.",
+          "description": "HTML or ARIA attributes that must be present for correct accessible usage.",
           "items": {
-            "$ref": "#/$defs/ariaAttributeDescriptor"
+            "$ref": "#/$defs/attributeDescriptor"
           }
         },
         "keyboardInteractions": {
@@ -454,14 +457,14 @@
       },
       "additionalProperties": true
     },
-    "ariaAttributeDescriptor": {
+    "attributeDescriptor": {
       "type": "object",
-      "description": "Describes a required ARIA attribute.",
+      "description": "Describes a required HTML or ARIA attribute for accessible usage.",
       "required": ["attribute"],
       "properties": {
         "attribute": {
           "type": "string",
-          "description": "The ARIA attribute name."
+          "description": "The attribute name (e.g., aria-label, aria-describedby, id, type)."
         },
         "description": {
           "type": "string",
@@ -798,6 +801,9 @@
         "overrides": {
           "type": "object",
           "description": "Map of token reference (category.tokenName) to overridden resolved value.",
+          "propertyNames": {
+            "pattern": "^[a-z][a-z0-9-]*\\.[a-z][a-z0-9-]*$"
+          },
           "additionalProperties": {
             "type": "string"
           }

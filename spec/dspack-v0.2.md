@@ -343,7 +343,7 @@ The `accessibility` object describes the minimum accessibility constraints and e
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
 | `role` | string | OPTIONAL | The WAI-ARIA role this component fulfills (e.g., `dialog`, `alertdialog`, `button`, `menu`). |
-| `requiredAttributes` | array | OPTIONAL | ARIA attributes that MUST be present for correct usage. Array of attribute descriptor objects. |
+| `requiredAttributes` | array | OPTIONAL | HTML or ARIA attributes that MUST be present for correct accessible usage. Array of attribute descriptor objects. |
 | `keyboardInteractions` | array | OPTIONAL | Expected keyboard behaviors. Array of keyboard interaction objects. |
 | `contrastRequirement` | string | OPTIONAL | Minimum contrast ratio or WCAG level (e.g., `"4.5:1"`, `"AA"`, `"AAA"`). |
 | `focusManagement` | string | OPTIONAL | Prose description of focus behavior expectations — where focus moves on open/close, trap behavior, initial focus target. |
@@ -362,7 +362,7 @@ The `accessibility` object describes the minimum accessibility constraints and e
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `attribute` | string | REQUIRED | The ARIA attribute name (e.g., `aria-label`, `aria-describedby`). |
+| `attribute` | string | REQUIRED | The attribute name — ARIA attributes (e.g., `aria-label`, `aria-describedby`) or HTML attributes required for accessibility (e.g., `id` for label association, `type` for form semantics). |
 | `description` | string | OPTIONAL | When and how to provide this attribute. |
 | `condition` | string | OPTIONAL | Condition under which this attribute is required (e.g., `"when no visible label is present"`). |
 
