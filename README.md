@@ -129,7 +129,7 @@ This matters because a good spec for an exchange format is usually selective. It
 
 [dspack-export](https://github.com/aestheticfunction/dspack-export) (experimental) generates a dspack v0.2 file from a React + Tailwind/shadcn codebase: components and props (including cva variant enums and their defaults), semantic color and radius tokens from CSS custom properties, dark-theme overrides, layout breakpoints, and React import bindings. It is a snapshot generator — it captures what the design system looks like right now, validates the output against the v0.2 schema, and writes one file. Hand-authored sections such as `patterns`, `antiPatterns`, `whenToUse`, `accessibility`, and `constraints` remain yours to write; an exporter can extract facts, but the institutional knowledge that makes a dspack file valuable to agents comes from your team.
 
-dspack files can also simply be written by hand — the [shadcn/ui example](examples/shadcn-ui.dspack.json) in this repository was. A valid document needs only `dspack` and `name`.
+dspack files can also simply be written by hand — the [shadcn/ui example](examples/shadcn-ui.dspack.json) in this repository was authored that way. A valid document needs only `dspack` and `name`.
 
 ### Consuming dspack files
 
