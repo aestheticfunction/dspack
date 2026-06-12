@@ -1,6 +1,6 @@
 # dspack
 
-**dspack** is an open JSON specification for representing what a design system knows: tokens, components, patterns, and anti-patterns, in one portable artifact that AI agents can query.
+**dspack** is an open JSON specification for representing what a design system knows: tokens, components, patterns, and anti-patterns in one portable artifact that AI agents can query.
 
 Think of it as OpenAPI for design systems.
 
