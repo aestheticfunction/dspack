@@ -683,6 +683,8 @@ Version 0.2 assumes a dspack corpus is a single JSON file. Some design systems m
 
 The recommended token types listed in [Section 5.3](#53-token-types) are an open set — custom values are permitted. The `tier` property added in version 0.2 classifies tokens by abstraction level, but the question of whether to close the token type set or define a registry remains open.
 
+The W3C Design Tokens Community Group (DTCG) Format Module 2025.10 defines a related type vocabulary. Eight of dspack's recommended types (`color`, `dimension`, `fontFamily`, `fontWeight`, `duration`, `cubicBezier`, `number`, `shadow`) align with DTCG by name and semantics. dspack additionally recommends five finer-grained types (`fontSize`, `lineHeight`, `letterSpacing`, `borderRadius`, `opacity`) that carry more semantic signal for code generation; DTCG subsumes these under `dimension` or `number`. dspack also recommends `string`, which has no DTCG counterpart. A future version may formalize the mapping between the two vocabularies while preserving dspack's finer-grained types where they benefit generation accuracy.
+
 ### 16.5 Code Examples in Patterns
 
 Patterns currently have prose `guidance`. A future version may support structured code examples — template snippets per framework — within patterns or composition rules, enabling consumers to generate code from pattern templates rather than from prose interpretation.
