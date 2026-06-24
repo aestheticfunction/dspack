@@ -830,8 +830,13 @@
           },
           {
             "attribute": "aria-label",
-            "condition": "when the table has no visible TableCaption",
-            "description": "Give the table an accessible name via TableCaption (preferred), aria-label, or aria-labelledby so its purpose is announced when it receives focus or is navigated."
+            "condition": "when the table has no visible TableCaption and no aria-labelledby reference",
+            "description": "Give the table an accessible name with a literal label string so its purpose is announced when it receives focus or is navigated. Prefer a visible TableCaption where one is appropriate."
+          },
+          {
+            "attribute": "aria-labelledby",
+            "condition": "when the table has no visible TableCaption but an existing on-page heading names it",
+            "description": "Reference the id of the visible element that already names the table, instead of duplicating the name in an aria-label. Use either aria-labelledby or aria-label, not both."
           }
         ],
         "labelRequirement": "required-accessible-name",
@@ -916,9 +921,9 @@
           "severity": "should"
         },
         {
-          "context": "A data table of non-trivial length",
-          "rule": "Provide a TableCaption or other accessible name describing the table's contents",
-          "severity": "should"
+          "context": "Any data table",
+          "rule": "Give the table an accessible name describing its contents — a TableCaption (preferred), or aria-label/aria-labelledby",
+          "severity": "must"
         }
       ],
       "tokens": ["background", "foreground", "muted", "muted-foreground", "border"],
