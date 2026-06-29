@@ -12,8 +12,17 @@ Think of it as OpenAPI for design systems.
 
 ---
 
+## dspack in action
+
+One dspack contract, consumed end-to-end by tools that never coordinated — queried over MCP, compiled to an A2UI catalog, and rendered. The spec travels.
+
+https://github.com/user-attachments/assets/510a781b-4214-49b3-b997-9cbecdc36961
+
+---
+
 ## Table of Contents
 
+- [dspack in action](#dspack-in-action)
 - [What is dspack?](#what-is-dspack)
 - [Concepts](#concepts)
 - [Implementations](#implementations)
