@@ -167,6 +167,10 @@ function ruleComponentRefs(rule) {
 /** Governance consistency checks for a v0.3 document. Returns error strings. */
 function checkGovernance(doc, validateSurface) {
   const errors = [];
+  // Spec §5 scopes governance consistency (incl. sub-component id uniqueness)
+  // to contracts that USE governance blocks — a pure v0.2-shaped document with
+  // "dspack": "0.3" must keep the strictly-additive guarantee.
+  if (!doc.intents && !doc.rules && !doc.examples) return errors;
   const vocab = buildVocabulary(doc);
   // Fail loudly on ambiguous vocabulary before any check that depends on it.
   for (const id of vocab.duplicateSubIds) {
