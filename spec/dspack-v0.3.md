@@ -126,6 +126,12 @@ Common fields:
 All component and sub-component references inside a rule MUST resolve in the contract's
 `components` map (including `composition.subComponents` ids); all example references MUST
 resolve in `examples[]`. Otherwise the document is inconsistent and MUST be rejected.
+Because rule references and gate S2 resolve sub-components by id alone, **sub-component ids
+MUST be unique across the document** in contracts that use governance blocks (v0.2's
+"should be parent-prefixed" convention makes this natural); a duplicate makes the document
+inconsistent and MUST be rejected. Governance objects follow the global v0.2 extensibility
+rule: `x-`-prefixed extension properties are permitted on `intents[]`, `rules[]`,
+`examples[]` entries and their nested objects, and consumers MUST ignore them.
 
 ### 5.1 Applicability
 

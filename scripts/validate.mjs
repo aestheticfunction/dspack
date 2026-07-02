@@ -72,20 +72,28 @@ function compileSchemas() {
  * Build the vocabulary of a contract:
  *  - components: Map componentId -> { props: Map propName -> descriptor, slots: Set slotName }
  *  - subComponents: Map subComponentId -> parent componentId
+ *  - duplicateSubIds: sub-component IDs declared by more than one component.
+ *    Duplicates would make S2 checks and rule reference resolution depend on
+ *    object iteration order, so callers MUST surface them as consistency
+ *    errors (spec §5: sub-component IDs must be unique document-wide).
  */
 function buildVocabulary(doc) {
   const components = new Map();
   const subComponents = new Map();
+  const duplicateSubIds = new Set();
   for (const [id, entry] of Object.entries(doc.components ?? {})) {
     const props = new Map(Object.entries(entry.props ?? {}));
     const slots = new Set();
     for (const sub of entry.composition?.subComponents ?? []) {
-      if (sub.id) subComponents.set(sub.id, id);
+      if (sub.id) {
+        if (subComponents.has(sub.id) && subComponents.get(sub.id) !== id) duplicateSubIds.add(sub.id);
+        subComponents.set(sub.id, id);
+      }
       if (sub.slot) slots.add(sub.slot);
     }
     components.set(id, { props, slots });
   }
-  return { components, subComponents };
+  return { components, subComponents, duplicateSubIds };
 }
 
 /** Allowed values for an enum prop descriptor (bare values or valueDescriptor objects). */
@@ -160,6 +168,16 @@ function ruleComponentRefs(rule) {
 function checkGovernance(doc, validateSurface) {
   const errors = [];
   const vocab = buildVocabulary(doc);
+  // Fail loudly on ambiguous vocabulary before any check that depends on it.
+  for (const id of vocab.duplicateSubIds) {
+    const parents = Object.entries(doc.components ?? {})
+      .filter(([, entry]) => (entry.composition?.subComponents ?? []).some((s) => s.id === id))
+      .map(([componentId]) => componentId);
+    errors.push(
+      `sub-component id '${id}' is declared by multiple components (${parents.join(", ")}); ` +
+        `sub-component ids must be unique document-wide for deterministic S2 and rule resolution`,
+    );
+  }
   const intents = new Set((doc.intents ?? []).map((i) => i.id));
   const exampleIds = new Set((doc.examples ?? []).map((e) => e.id));
 
