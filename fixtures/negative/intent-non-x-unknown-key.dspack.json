@@ -1,0 +1,19 @@
+{
+  "_comment": "SCHEMA: non-x unknown key 'unknownField' on an intent entry must be rejected (x-* extension keys are the only permitted additions).",
+  "dspack": "0.3",
+  "name": "negative-fixture",
+  "components": {
+    "button": {
+      "name": "Button",
+      "description": "A button."
+    }
+  },
+  "intents": [
+    {
+      "id": "destructive-action",
+      "description": "Irreversible operations.",
+      "x-owner": "design-systems-guild",
+      "unknownField": true
+    }
+  ]
+}

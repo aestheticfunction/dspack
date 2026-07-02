@@ -1,0 +1,37 @@
+{
+  "_comment": "CONSISTENCY: 'shared-part' is declared as a sub-component by two different components; ambiguous vocabulary must be rejected, not resolved by iteration order.",
+  "dspack": "0.3",
+  "name": "negative-fixture",
+  "components": {
+    "widget-a": {
+      "name": "WidgetA",
+      "description": "First parent.",
+      "composition": {
+        "subComponents": [
+          {
+            "id": "shared-part",
+            "name": "SharedPart"
+          }
+        ]
+      }
+    },
+    "widget-b": {
+      "name": "WidgetB",
+      "description": "Second parent.",
+      "composition": {
+        "subComponents": [
+          {
+            "id": "shared-part",
+            "name": "SharedPart"
+          }
+        ]
+      }
+    }
+  },
+  "intents": [
+    {
+      "id": "destructive-action",
+      "description": "Irreversible operations."
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "dspack": "0.3",
+  "name": "negative-fixture",
+  "components": {
+    "button": {
+      "name": "Button",
+      "description": "A button.",
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": [
+            "default",
+            "destructive"
+          ]
+        }
+      }
+    },
+    "alert-dialog": {
+      "name": "AlertDialog",
+      "description": "A confirmation dialog.",
+      "composition": {
+        "subComponents": [
+          {
+            "id": "alert-dialog-title",
+            "name": "AlertDialogTitle"
+          },
+          {
+            "id": "alert-dialog-cancel",
+            "name": "AlertDialogCancel"
+          }
+        ]
+      }
+    }
+  },
+  "intents": [
+    {
+      "id": "destructive-action",
+      "description": "Irreversible operations."
+    }
+  ],
+  "_comment": "SCHEMA: rule missing the mandatory rationale.",
+  "rules": [
+    {
+      "id": "rule.fixture",
+      "severity": "must",
+      "type": "component-choice",
+      "require": [
+        "alert-dialog"
+      ]
+    }
+  ]
+}

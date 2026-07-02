@@ -1,0 +1,56 @@
+{
+  "dspack": "0.3",
+  "name": "negative-fixture",
+  "components": {
+    "button": {
+      "name": "Button",
+      "description": "A button.",
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": [
+            "default",
+            "destructive"
+          ]
+        }
+      }
+    },
+    "alert-dialog": {
+      "name": "AlertDialog",
+      "description": "A confirmation dialog.",
+      "composition": {
+        "subComponents": [
+          {
+            "id": "alert-dialog-title",
+            "name": "AlertDialogTitle"
+          },
+          {
+            "id": "alert-dialog-cancel",
+            "name": "AlertDialogCancel"
+          }
+        ]
+      }
+    }
+  },
+  "intents": [
+    {
+      "id": "destructive-action",
+      "description": "Irreversible operations."
+    }
+  ],
+  "_comment": "SCHEMA: example missing the mandatory intent.",
+  "examples": [
+    {
+      "id": "ex.fixture",
+      "surface": {
+        "dspackSurface": "0.1",
+        "system": "negative-fixture",
+        "intent": "destructive-action",
+        "root": {
+          "component": "button",
+          "text": "Go"
+        }
+      }
+    }
+  ]
+}

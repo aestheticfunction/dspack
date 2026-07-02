@@ -1,0 +1,58 @@
+{
+  "dspack": "0.3",
+  "name": "negative-fixture",
+  "components": {
+    "button": {
+      "name": "Button",
+      "description": "A button.",
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": [
+            "default",
+            "destructive"
+          ]
+        }
+      }
+    },
+    "alert-dialog": {
+      "name": "AlertDialog",
+      "description": "A confirmation dialog.",
+      "composition": {
+        "subComponents": [
+          {
+            "id": "alert-dialog-title",
+            "name": "AlertDialogTitle"
+          },
+          {
+            "id": "alert-dialog-cancel",
+            "name": "AlertDialogCancel"
+          }
+        ]
+      }
+    }
+  },
+  "intents": [
+    {
+      "id": "destructive-action",
+      "description": "Irreversible operations."
+    }
+  ],
+  "_comment": "CONSISTENCY: rule requires component 'wizard' which the contract does not define.",
+  "rules": [
+    {
+      "id": "rule.fixture",
+      "severity": "must",
+      "rationale": "Fixture rationale.",
+      "type": "component-choice",
+      "appliesTo": {
+        "intents": [
+          "destructive-action"
+        ]
+      },
+      "require": [
+        "wizard"
+      ]
+    }
+  ]
+}
