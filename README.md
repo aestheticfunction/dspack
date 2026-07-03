@@ -6,9 +6,9 @@ Think of it as OpenAPI for design systems.
 
 ---
 
-> **Status: v0.3 draft available.**
+> **Status: v0.4 draft available.**
 >
-> The current draft is [`spec/dspack-v0.3.md`](./spec/dspack-v0.3.md) (written as a delta over [v0.2](./spec/dspack-v0.2.md)), with a matching [JSON Schema](./schema/dspack.v0.3.schema.json), a companion [surface schema](./schema/dspack.surface.v0_1.schema.json), and a [shadcn/ui reference example](./examples/shadcn-ui.dspack.json). v0.3 adds the machine-checkable **governance blocks** — `intents`, `rules`, `examples` — and is strictly additive: a valid v0.2 document with `"dspack": "0.3"` validates against the v0.3 schema (see the [migration guide](./spec/migration-v0.2-to-v0.3.md)). Earlier specs and schemas ([v0.2](./spec/dspack-v0.2.md), [v0.1](./spec/dspack-v0.1.md)) are preserved for reference. This is a draft — breaking changes may occur before v1.0. Contributions to the design are welcome at any stage.
+> The current draft is [`spec/dspack-v0.4.md`](./spec/dspack-v0.4.md) (written as a delta over [v0.3](./spec/dspack-v0.3.md)), with a matching [JSON Schema](./schema/dspack.v0.4.schema.json), a companion [surface schema](./schema/dspack.surface.v0_1.schema.json), and a [shadcn/ui reference example](./examples/shadcn-ui.dspack.json). v0.4 adds **component categories** (a contract-defined registry that rules can select by) and the **`required-props` rule type** ("this component must carry named content directly" — the refinement driven by measured projection-gap failures), and is strictly additive: a valid v0.3 document with `"dspack": "0.4"` validates against the v0.4 schema (see the [migration guide](./spec/migration-v0.3-to-v0.4.md)). Earlier specs and schemas ([v0.3](./spec/dspack-v0.3.md), [v0.2](./spec/dspack-v0.2.md), [v0.1](./spec/dspack-v0.1.md)) are preserved for reference. This is a draft — breaking changes may occur before v1.0. Contributions to the design are welcome at any stage.
 
 ---
 
@@ -121,6 +121,7 @@ The following milestones represent the current intended direction. They are not 
 | **shadcn/ui example dspack** | A reference dspack file for the [shadcn/ui](https://ui.shadcn.com) component library — _[available](./examples/shadcn-ui.dspack.json)_ |
 | **v0.2 spec draft** | Adds structured generation constraints: lifecycle status, accessibility, composition rules, contextual constraints, variant semantics, token hierarchy, themes, layout primitives, and anti-pattern severity — _[available](./spec/dspack-v0.2.md)_ |
 | **v0.3 spec draft** | Adds the machine-checkable governance blocks: named intents, typed deterministic rules with rationales, compilable examples, and the companion dspack surface format — _[available](./spec/dspack-v0.3.md)_ |
+| **v0.4 spec draft** | Adds component categories (contract-defined registry, category-based rule selection) and the `required-props` rule type, both driven by measured pipeline evidence — _[available](./spec/dspack-v0.4.md)_ |
 | **ds-mcp v0 release** | First release of the reference implementation, validated against the v0.2 spec — _[available](https://github.com/aestheticfunction/ds-mcp)_ |
 | **Community RFCs** | Open RFC process for proposing additions and changes to the spec |
 | **v1.0 spec stabilization** | First stable, versioned release of the specification; breaking changes require a formal process after this point |

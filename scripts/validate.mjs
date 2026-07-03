@@ -8,10 +8,11 @@
  *      with dspack-emit).
  *   2. examples — every examples/*.dspack.json validates against the schema
  *      matching its declared `dspack` version.
- *   3. back-compat — for v0.3 documents, the document with the governance
- *      blocks (intents/rules/examples) removed still validates against the
- *      v0.3 schema (the "v0.2 shape + dspack: 0.3 is valid" guarantee).
- *   4. governance consistency — for v0.3 documents: unique IDs, intent
+ *   3. back-compat — for v0.3+ documents, the document with the governance
+ *      blocks (intents/rules/examples) removed still validates against its
+ *      own schema (the "v0.2 shape + a newer dspack version is valid"
+ *      guarantee, per each version's strictly-additive promise).
+ *   4. governance consistency — for v0.3+ documents: unique IDs, intent
  *      references resolve, rule component references resolve, rule example
  *      references resolve, and every examples[].surface passes:
  *        S1 — the generic dspack surface schema, and
@@ -19,6 +20,9 @@
  *             names, enum prop values, declared slot names).
  *      S2 here checks exactly what the v0.3 spec defines for the gate; it
  *      does not check acceptsChildren semantics or non-enum prop types.
+ *   5. categories consistency — for v0.4 documents: category ids referenced
+ *      by component/sub-component metadata and by rule forbiddenCategories
+ *      resolve in the top-level categories registry.
  *
  * Negative mode (`npm run validate -- --fixtures negative`):
  *   Runs the same full validation over fixtures/negative/*.dspack.json and
@@ -41,7 +45,10 @@ const DSPACK_SCHEMAS = {
   "0.1": "dspack.v0.1.schema.json",
   "0.2": "dspack.v0.2.schema.json",
   "0.3": "dspack.v0.3.schema.json",
+  "0.4": "dspack.v0.4.schema.json",
 };
+/** Versions with governance blocks (and, from 0.4, categories) to consistency-check. */
+const GOVERNANCE_VERSIONS = new Set(["0.3", "0.4"]);
 const SURFACE_SCHEMA = "dspack.surface.v0_1.schema.json";
 
 function newAjv() {
@@ -156,15 +163,45 @@ function ruleComponentRefs(rule) {
   };
   push("require", rule.require);
   push("forbid", rule.forbid);
-  if (rule.component) refs.push({ kind: "component", id: rule.component });
+  // required-props (v0.4) is the one type whose `component` accepts a
+  // sub-component id (spec v0.4 §4.1); `within` accepts either kind.
+  if (rule.component) {
+    refs.push({ kind: rule.type === "required-props" ? "componentOrSub" : "component", id: rule.component });
+  }
+  if (rule.within) refs.push({ kind: "componentOrSub", id: rule.within });
   push("forbiddenDescendants", rule.forbiddenDescendants);
   push("requiredSubComponents", (rule.requiredSubComponents ?? []).map((s) => s.id));
-  push("on", (rule.requiredProps ?? []).map((p) => p.on).filter(Boolean));
+  // `on` entries exist only on required-composition/forbidden-composition
+  // requiredProps/forbiddenProps; required-props (v0.4) entries have no `on`.
+  if (rule.type !== "required-props") {
+    push("on", (rule.requiredProps ?? []).map((p) => p.on).filter(Boolean));
+  }
   push("on", (rule.forbiddenProps ?? []).map((p) => p.on).filter(Boolean));
   return refs;
 }
 
-/** Governance consistency checks for a v0.3 document. Returns error strings. */
+/** Category consistency checks for a v0.4 document. Returns error strings. */
+function checkCategories(doc) {
+  const errors = [];
+  const registry = new Set(Object.keys(doc.categories ?? {}));
+  const checkMember = (where, ids) => {
+    for (const id of ids ?? []) {
+      if (!registry.has(id)) errors.push(`${where}: category '${id}' is not registered in categories`);
+    }
+  };
+  for (const [cid, entry] of Object.entries(doc.components ?? {})) {
+    checkMember(`components.${cid}`, entry.categories);
+    for (const sub of entry.composition?.subComponents ?? []) {
+      checkMember(`components.${cid} sub-component '${sub.id}'`, sub.categories);
+    }
+  }
+  for (const rule of doc.rules ?? []) {
+    checkMember(rule.id ?? "(rule without id)", rule.forbiddenCategories);
+  }
+  return errors;
+}
+
+/** Governance consistency checks for a v0.3+ document. Returns error strings. */
 function checkGovernance(doc, validateSurface) {
   const errors = [];
   // Spec §5 scopes governance consistency (incl. sub-component id uniqueness)
@@ -210,7 +247,7 @@ function checkGovernance(doc, validateSurface) {
           ? resolvesToSub
           : kind === "component"
             ? resolvesToComponent
-            : resolvesToComponent || resolvesToSub;
+            : resolvesToComponent || resolvesToSub; // componentOrSub, require, forbid, forbiddenDescendants
       if (!ok) errors.push(`${rule.id}: ${kind} reference '${id}' does not resolve in the contract`);
     }
     for (const ex of rule.examples ?? []) {
@@ -255,8 +292,11 @@ function validateDocument(doc, validators) {
     for (const e of validate.errors ?? []) errors.push(`schema ${fmtErr(e)}`);
     return errors;
   }
-  if (version === "0.3") {
+  if (GOVERNANCE_VERSIONS.has(version)) {
     errors.push(...checkGovernance(doc, validators.get(SURFACE_SCHEMA)));
+  }
+  if (version === "0.4") {
+    errors.push(...checkCategories(doc));
   }
   return errors;
 }
@@ -318,8 +358,8 @@ function main() {
     const doc = loadJson(path);
     const errors = validateDocument(doc, validators);
 
-    // Back-compat guarantee: a v0.3 document minus governance blocks stays valid.
-    if (doc?.dspack === "0.3" && errors.length === 0) {
+    // Back-compat guarantee: a v0.3+ document minus governance blocks stays valid.
+    if (GOVERNANCE_VERSIONS.has(doc?.dspack) && errors.length === 0) {
       const stripped = { ...doc };
       delete stripped.intents;
       delete stripped.rules;

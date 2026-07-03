@@ -1,0 +1,69 @@
+{
+  "dspack": "0.4",
+  "name": "negative-fixture",
+  "categories": {
+    "interactive": {
+      "description": "Receives activation."
+    }
+  },
+  "components": {
+    "button": {
+      "name": "Button",
+      "description": "A button.",
+      "categories": [
+        "interactive"
+      ],
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": [
+            "default",
+            "destructive"
+          ]
+        }
+      }
+    },
+    "alert-dialog": {
+      "name": "AlertDialog",
+      "description": "A confirmation dialog.",
+      "composition": {
+        "subComponents": [
+          {
+            "id": "alert-dialog-trigger",
+            "name": "AlertDialogTrigger",
+            "categories": [
+              "interactive"
+            ]
+          },
+          {
+            "id": "alert-dialog-title",
+            "name": "AlertDialogTitle"
+          },
+          {
+            "id": "alert-dialog-cancel",
+            "name": "AlertDialogCancel",
+            "categories": [
+              "interactive"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "intents": [
+    {
+      "id": "destructive-action",
+      "description": "Irreversible operations."
+    }
+  ],
+  "_comment": "SCHEMA: a required-props rule must carry at least one of requiredText / requiredProps.",
+  "rules": [
+    {
+      "id": "rule.fixture",
+      "type": "required-props",
+      "severity": "must",
+      "rationale": "Fixture rationale.",
+      "component": "button"
+    }
+  ]
+}

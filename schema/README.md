@@ -4,8 +4,10 @@ JSON Schema and related validation artifacts for dspack live in this directory.
 
 ## Current schemas
 
+- [`dspack.v0.4.schema.json`](./dspack.v0.4.schema.json) — JSON Schema for dspack v0.4
+  (current draft; adds component categories and the `required-props` rule type)
 - [`dspack.v0.3.schema.json`](./dspack.v0.3.schema.json) — JSON Schema for dspack v0.3
-  (current draft; adds the governance blocks: `intents`, `rules`, `examples`)
+  (adds the governance blocks: `intents`, `rules`, `examples`)
 - [`dspack.surface.v0_1.schema.json`](./dspack.surface.v0_1.schema.json) — JSON Schema for
   the dspack **surface** document (v0.1), the protocol-neutral component tree that governance
   rules are evaluated against and that `examples[].surface` embeds
