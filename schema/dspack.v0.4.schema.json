@@ -87,7 +87,7 @@
     },
     "rules": {
       "type": "array",
-      "description": "Machine-checkable governance rules, evaluated deterministically over dspack surface documents. Each rule is a typed, structured predicate plus a human-readable rationale. Evaluation semantics per type are normative in the v0.3 specification.",
+      "description": "Machine-checkable governance rules, evaluated deterministically over dspack surface documents. Each rule is a typed, structured predicate plus a human-readable rationale. Evaluation semantics per type are normative in the v0.3 specification (the three original types) and the v0.4 specification (required-props, forbiddenCategories).",
       "items": {
         "$ref": "#/$defs/ruleEntry"
       }
