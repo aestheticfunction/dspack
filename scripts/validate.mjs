@@ -8,9 +8,10 @@
  *      with dspack-emit).
  *   2. examples — every examples/*.dspack.json validates against the schema
  *      matching its declared `dspack` version.
- *   3. back-compat — for v0.3+ documents, the document with the governance
- *      blocks (intents/rules/examples) removed still validates against its
- *      own schema (the "v0.2 shape + a newer dspack version is valid"
+ *   3. back-compat — for v0.3+ documents, the document with that version's
+ *      additive blocks removed (intents/rules/examples; for 0.4 also the
+ *      categories registry and membership fields) still validates against
+ *      its own schema (the "v0.2 shape + a newer dspack version is valid"
  *      guarantee, per each version's strictly-additive promise).
  *   4. governance consistency — for v0.3+ documents: unique IDs, intent
  *      references resolve, rule component references resolve, rule example
@@ -358,14 +359,35 @@ function main() {
     const doc = loadJson(path);
     const errors = validateDocument(doc, validators);
 
-    // Back-compat guarantee: a v0.3+ document minus governance blocks stays valid.
+    // Back-compat guarantee: a v0.3+ document minus that version's additive
+    // blocks stays valid — i.e. the pre-governance core shape is untouched.
+    // For 0.4 that means also stripping categories (the registry AND the
+    // membership fields), so the check really exercises the "v0.2 shape + a
+    // newer dspack version is valid" guarantee rather than passing v0.4
+    // features through.
     if (GOVERNANCE_VERSIONS.has(doc?.dspack) && errors.length === 0) {
       const stripped = { ...doc };
       delete stripped.intents;
       delete stripped.rules;
       delete stripped.examples;
+      if (doc.dspack === "0.4") {
+        delete stripped.categories;
+        stripped.components = Object.fromEntries(
+          Object.entries(doc.components ?? {}).map(([id, entry]) => {
+            const e = { ...entry };
+            delete e.categories;
+            if (e.composition?.subComponents) {
+              e.composition = {
+                ...e.composition,
+                subComponents: e.composition.subComponents.map(({ categories, ...sub }) => sub),
+              };
+            }
+            return [id, e];
+          }),
+        );
+      }
       const strippedErrors = validateDocument(stripped, validators);
-      for (const e of strippedErrors) errors.push(`back-compat (governance blocks removed): ${e}`);
+      for (const e of strippedErrors) errors.push(`back-compat (version's additive blocks removed): ${e}`);
     }
 
     if (errors.length) {

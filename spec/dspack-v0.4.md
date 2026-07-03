@@ -80,6 +80,9 @@ Membership is declared where the component is declared:
 - `components.<id>.categories: string[]` — on a component entry.
 - `composition.subComponents[].categories: string[]` — on a sub-component descriptor.
 
+A membership array, when present, MUST be non-empty (omit the field rather than declaring
+`[]`; the schema enforces `minItems: 1`).
+
 **Referential integrity.** Every category id referenced by a membership list or by a
 rule field (§4.2) MUST be registered in `categories`; otherwise the document is
 inconsistent and validating tools MUST reject it. Registered categories with no members
