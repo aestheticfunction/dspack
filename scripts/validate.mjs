@@ -5,7 +5,7 @@
  * Default mode (`npm run validate`):
  *   1. schema-compile — every schema in schema/ compiles as a draft 2020-12
  *      JSON Schema under ajv (strict: false, the toolchain convention shared
- *      with dspack-to-a2ui).
+ *      with dspack-emit).
  *   2. examples — every examples/*.dspack.json validates against the schema
  *      matching its declared `dspack` version.
  *   3. back-compat — for v0.3 documents, the document with the governance
