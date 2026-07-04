@@ -1,0 +1,36 @@
+{
+  "dspack": "0.4",
+  "name": "negative-fixture",
+  "_comment": "SCHEMA: textScope must be 'self' or 'subtree' (and requires requiredText via dependentRequired).",
+  "components": {
+    "alert-dialog": {
+      "name": "AlertDialog",
+      "description": "A confirmation dialog.",
+      "composition": {
+        "subComponents": [
+          {
+            "id": "alert-dialog-trigger",
+            "name": "AlertDialogTrigger"
+          }
+        ]
+      }
+    }
+  },
+  "intents": [
+    {
+      "id": "destructive-action",
+      "description": "Irreversible operations."
+    }
+  ],
+  "rules": [
+    {
+      "id": "rule.fixture",
+      "type": "required-props",
+      "severity": "must",
+      "rationale": "Fixture rationale.",
+      "component": "alert-dialog-trigger",
+      "requiredText": true,
+      "textScope": "descendants"
+    }
+  ]
+}

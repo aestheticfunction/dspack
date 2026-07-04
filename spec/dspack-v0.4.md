@@ -109,13 +109,24 @@ fields' semantics.
   "id": "rule.trigger-carries-label",
   "type": "required-props",
   "severity": "must",
-  "component": "button",
-  "within": "alert-dialog-trigger",
+  "component": "alert-dialog-trigger",
   "requiredText": true,
-  "rationale": "The trigger button must present its label as its own text…",
+  "textScope": "subtree",
+  "rationale": "The trigger must present an accessible label…",
   "examples": ["ex.delete-account-confirmation"]
 }
 ```
+
+> **Draft amendment (2026-07-04), on measured evidence.** The first live run of this
+> rule type (dspack-gen PR-15, 216 runs) decomposed its findings and showed the
+> original for-every-node `within` semantics rejected 67 surfaces whose emission the
+> A2UI target accepts (a labeled bearer existed; a textless *sibling* tripped the
+> rule). Two changes, while v0.4 is a draft: `requiredText` gains **`textScope`**
+> (`self` | `subtree`, default `self`), and `within` scoping is now **∃-quantified**
+> (at least one matching node per scope satisfies). Rules SHOULD state exactly the
+> precondition of the projection they protect — no stricter, no looser; stricter
+> requirements (e.g. "no unlabeled buttons anywhere") are their own rules with their
+> own rationales.
 
 Fields:
 
@@ -123,29 +134,32 @@ Fields:
 | --- | --- | --- | --- |
 | `component` | string | yes | Component **or sub-component** id whose instances are checked. This is the one rule type whose `component` accepts a sub-component id. |
 | `within` | string | no | Component or sub-component id scoping the check (see below). |
-| `requiredText` | `true` | one of these two | The node MUST carry non-empty **direct** text (its own `text` field). |
+| `requiredText` | `true` | one of these two | The node MUST carry non-empty text — its own `text` field by default; see `textScope`. |
+| `textScope` | `self` \| `subtree` | no (default `self`) | Where `requiredText` looks: `self` = the node's own `text` field only; `subtree` = direct text on the node **or any of its descendants** — for compound wrappers whose documented projections lift a label from within. Only meaningful with `requiredText`. |
 | `requiredProps` | `{prop, oneOf?}[]` | one of these two | Props that MUST be present **directly on the node's `props`**; when `oneOf` is given the value MUST be a member. |
 
 **Normative evaluation semantics.** Terms as in v0.3 §5.3 ("descendants", "matches").
 
 The **checked set**:
 
-- When `within` is absent: every node in the surface matching `component`.
-- When `within` is present: every node matching `component` that has an ancestor
-  matching `within`. Additionally, **every node matching `within` MUST contain at least
-  one descendant matching `component`** (one finding per `within` node with none,
-  located at that node). This existence clause mirrors v0.3's `requiredProps.on`
-  semantics ("at least one such descendant MUST exist") and closes the hole where a
-  scope carries no label-bearing node at all.
+- When `within` is absent: every node in the surface matching `component`; **every**
+  node in the checked set MUST satisfy the constraints (one finding per violating
+  node, located at it).
+- When `within` is present: for every node matching `within`, at least one descendant
+  matching `component` MUST exist (one finding per `within` node with none, located at
+  that node), and **at least one such descendant MUST satisfy the constraints**
+  (∃-quantified; one finding per `within` node whose matching descendants all violate,
+  located at the `within` node). The existence clause mirrors v0.3's
+  `requiredProps.on` semantics; the ∃ quantifier is the 2026-07-04 amendment above.
 
-For each node in the checked set:
+Constraints, per checked node:
 
-- `requiredText: true` — the node MUST have a `text` field that is a non-empty string.
-  Text carried by descendants does not satisfy the requirement; that is the point of
-  the rule type. One finding per violating node, located at it.
+- `requiredText: true` with `textScope: "self"` (the default) — the node MUST have a
+  `text` field that is a non-empty string; text carried by descendants does not
+  satisfy it. With `textScope: "subtree"` — the node or at least one of its
+  descendants MUST carry a non-empty `text` field.
 - Each `requiredProps` entry — the node's own `props[prop]` MUST be present; when
-  `oneOf` is present, its value MUST be a member. One finding per violated entry,
-  located at the node.
+  `oneOf` is present, its value MUST be a member.
 
 **Distinction from `required-composition.requiredProps`** (v0.3 §5.3): that field is
 `on`-scoped (checks descendants of the anchoring component) and requires `oneOf`

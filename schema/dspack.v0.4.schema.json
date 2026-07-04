@@ -1223,6 +1223,15 @@
                 "const": true,
                 "description": "The matching node MUST carry non-empty direct text (its own `text` field, never text in descendants)."
               },
+              "textScope": {
+                "type": "string",
+                "enum": [
+                  "self",
+                  "subtree"
+                ],
+                "default": "self",
+                "description": "Where requiredText looks for the text: \"self\" (the node's own `text` field — the default) or \"subtree\" (direct text on the node or any descendant; for compound wrappers whose documented projections lift a label from within). Amendment 2026-07-04, on PR-15 evidence."
+              },
               "requiredProps": {
                 "type": "array",
                 "description": "Props that MUST be present directly on the matching node's `props`. Unlike required-composition's requiredProps, entries have no `on` (the rule's component IS the target) and `oneOf` is optional (presence-only when absent).",
@@ -1249,6 +1258,11 @@
                 },
                 "minItems": 1
               }
+            },
+            "dependentRequired": {
+              "textScope": [
+                "requiredText"
+              ]
             }
           }
         }

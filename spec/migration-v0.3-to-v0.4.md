@@ -60,12 +60,18 @@ repairable finding:
   "id": "rule.trigger-carries-label",
   "type": "required-props",
   "severity": "must",
-  "component": "button",
-  "within": "alert-dialog-trigger",
+  "component": "alert-dialog-trigger",
   "requiredText": true,
-  "rationale": "The trigger button must present its label as its own text…"
+  "textScope": "subtree",
+  "rationale": "The trigger must present an accessible label…"
 }
 ```
+
+*(Amended 2026-07-04 while v0.4 is a draft: the rule originally anchored on `button`
+`within` the trigger with for-every-button semantics; the first live run showed that
+form rejected surfaces whose emission succeeds — a labeled bearer plus a textless
+sibling. The amended form states exactly the projection's precondition: label text
+somewhere under the trigger. See spec §4.1's amendment note.)*
 
 **A category-based `forbidden-composition` rule** that would otherwise enumerate ids and
 silently rot as the vocabulary grows:
