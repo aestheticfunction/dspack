@@ -1221,7 +1221,16 @@
               },
               "requiredText": {
                 "const": true,
-                "description": "The matching node MUST carry non-empty direct text (its own `text` field, never text in descendants)."
+                "description": "The matching node MUST carry non-empty text. Where the text may live is set by `textScope`: its own `text` field only (the default, \"self\") or anywhere in its subtree (\"subtree\")."
+              },
+              "textScope": {
+                "type": "string",
+                "enum": [
+                  "self",
+                  "subtree"
+                ],
+                "default": "self",
+                "description": "Where requiredText looks for the text: \"self\" (the node's own `text` field — the default) or \"subtree\" (direct text on the node or any descendant; for compound wrappers whose documented projections lift a label from within). Amendment 2026-07-04, on PR-15 evidence."
               },
               "requiredProps": {
                 "type": "array",
@@ -1249,6 +1258,11 @@
                 },
                 "minItems": 1
               }
+            },
+            "dependentRequired": {
+              "textScope": [
+                "requiredText"
+              ]
             }
           }
         }
