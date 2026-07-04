@@ -139,20 +139,23 @@ Fields:
 | `requiredProps` | `{prop, oneOf?}[]` | one of these two | Props that MUST be present **directly on the node's `props`**; when `oneOf` is given the value MUST be a member. |
 
 **Normative evaluation semantics.** Terms as in v0.3 §5.3 ("descendants", "matches").
+Two evaluation modes, distinguished by `within`; in both, the **constraints** (defined
+below) are always evaluated against individual nodes matching `component` — never
+against the `within` node itself. `within` changes only which nodes are candidates,
+how many must satisfy, and where findings land.
 
-The **checked set**:
-
-- When `within` is absent: every node in the surface matching `component`; **every**
-  node in the checked set MUST satisfy the constraints (one finding per violating
-  node, located at it).
-- When `within` is present: for every node matching `within`, at least one descendant
-  matching `component` MUST exist (one finding per `within` node with none, located at
-  that node), and **at least one such descendant MUST satisfy the constraints**
-  (∃-quantified; one finding per `within` node whose matching descendants all violate,
-  located at the `within` node). The existence clause mirrors v0.3's
+- **`within` absent — every instance.** Every node in the surface matching
+  `component` is evaluated; each one MUST satisfy the constraints. One finding per
+  violating node, located at that node.
+- **`within` present — per scope, at least one (∃).** For every node matching
+  `within` (a *scope*): at least one descendant matching `component` MUST exist (one
+  finding per scope with none, located at the scope node), and at least one of those
+  descendants MUST satisfy the constraints (one finding per scope in which every
+  candidate violates, located at the scope node). Candidates that violate while a
+  sibling satisfies produce no findings. The existence clause mirrors v0.3's
   `requiredProps.on` semantics; the ∃ quantifier is the 2026-07-04 amendment above.
 
-Constraints, per checked node:
+The constraints, evaluated against a candidate node matching `component`:
 
 - `requiredText: true` with `textScope: "self"` (the default) — the node MUST have a
   `text` field that is a non-empty string; text carried by descendants does not
