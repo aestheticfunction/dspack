@@ -72,7 +72,7 @@ dspack files can also simply be written by hand — the [shadcn/ui example](exam
 
 ### Consuming dspack files
 
-[ds-mcp](https://github.com/aestheticfunction/ds-mcp) is the reference implementation of dspack. It is a read-only [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server that loads a dspack file and exposes your design system as tools AI coding agents can query at coding time. It supports dspack v0.1 and v0.2.
+[ds-mcp](https://github.com/aestheticfunction/ds-mcp) is the reference implementation of dspack. It is a read-only [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server that loads a dspack file and exposes your design system as tools AI coding agents can query at coding time. It supports dspack v0.1 through v0.4; the generation tools (`get-generation-context`, `validate-ui`) require v0.3 or v0.4.
 
 ds-mcp is one way to consume a dspack file, not the only way. The format is independent of MCP, independent of any specific AI agent or orchestration framework, and independent of any particular runtime environment. (On why the reference implementation is deliberately not the center of gravity, see [DESIGN.md](./DESIGN.md).)
 
@@ -122,7 +122,7 @@ The following milestones represent the current intended direction. They are not 
 | **v0.2 spec draft** | Adds structured generation constraints: lifecycle status, accessibility, composition rules, contextual constraints, variant semantics, token hierarchy, themes, layout primitives, and anti-pattern severity — _[available](./spec/dspack-v0.2.md)_ |
 | **v0.3 spec draft** | Adds the machine-checkable governance blocks: named intents, typed deterministic rules with rationales, compilable examples, and the companion dspack surface format — _[available](./spec/dspack-v0.3.md)_ |
 | **v0.4 spec draft** | Adds component categories (contract-defined registry, category-based rule selection) and the `required-props` rule type, both driven by measured pipeline evidence — _[available](./spec/dspack-v0.4.md)_ |
-| **ds-mcp v0 release** | First release of the reference implementation, validated against the v0.2 spec — _[available](https://github.com/aestheticfunction/ds-mcp)_ |
+| **ds-mcp v0 release** | First release of the reference implementation, validated against the v0.2 spec; current releases support v0.1 through v0.4 — _[available](https://github.com/aestheticfunction/ds-mcp)_ |
 | **Community RFCs** | Open RFC process for proposing additions and changes to the spec |
 | **v1.0 spec stabilization** | First stable, versioned release of the specification; breaking changes require a formal process after this point |
 
