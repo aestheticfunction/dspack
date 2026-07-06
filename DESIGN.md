@@ -1,6 +1,6 @@
 # dspack: Design Philosophy
 
-This document carries the long-form rationale behind dspack: why it exists, why it is a file format, and the principles the spec is built around. For the format itself, see the [README](./README.md) and the [current spec draft](./spec/dspack-v0.2.md).
+This document carries the long-form rationale behind dspack: why it exists, why it is a file format, and the principles the spec is built around. For the format itself, see the [README](./README.md) and the [current spec draft](./spec/dspack-v0.4.md).
 
 ---
 
