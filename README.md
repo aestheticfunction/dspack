@@ -20,11 +20,27 @@ https://github.com/user-attachments/assets/510a781b-4214-49b3-b997-9cbecdc36961
 
 ---
 
+## Try it in five minutes
+
+The fastest way to feel what a contract changes is to put one in front of an agent:
+
+```bash
+npm install -g @aestheticfunction/ds-mcp
+curl -L https://raw.githubusercontent.com/aestheticfunction/dspack/main/examples/shadcn-ui.dspack.json -o shadcn-ui.dspack.json
+ds-mcp --dspack ./shadcn-ui.dspack.json
+```
+
+Connect Claude Code, Cursor, Claude Desktop, or Copilot ([client setup](https://github.com/aestheticfunction/ds-mcp#readme)) and ask it to build a settings form. It will query your components, tokens, and anti-patterns instead of guessing, and you can lint the result against the contract's rules with `validate-ui`.
+
+---
+
 ## Table of Contents
 
 - [dspack in action](#dspack-in-action)
+- [Try it in five minutes](#try-it-in-five-minutes)
 - [What is dspack?](#what-is-dspack)
 - [Concepts](#concepts)
+- [Measured, not claimed](#measured-not-claimed)
 - [Implementations](#implementations)
 - [Non-goals](#non-goals)
 - [Roadmap](#roadmap)
@@ -59,6 +75,12 @@ A dspack file is a snapshot of a design system's knowledge at a point in time. I
 - **Layout primitives.** Responsive breakpoints, grid configuration, container sizes, and spacing scale parameters.
 
 These concepts relate to one another: components depend on tokens, patterns compose components, anti-patterns explain why a pattern exists, tokens alias other tokens across tiers, and themes override tokens for alternative contexts.
+
+---
+
+## Measured, not claimed
+
+The spec evolves against evidence, not speculation. Every milestone runs 216-run eval matrices across three local model families (gemma, qwen, gpt-oss), with all numbers recomputable from retained audit reports. The v0.4 `required-props` rule exists because 78/78 emitter-gate failures across all three families shared one measured signature; the amended rule took end-to-end passes from 28/216 to 67/216 with that signature extinct. Full findings: [dspack-gen findings](https://github.com/aestheticfunction/dspack-gen/blob/main/docs/findings.md) · [M3 report](https://github.com/aestheticfunction/dspack-gen/blob/main/docs/m3-report.md).
 
 ---
 
