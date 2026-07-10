@@ -551,17 +551,17 @@
           "children": [
             {
               "component": "text",
+              "text": "Danger zone",
               "props": {
                 "type": "display-3"
-              },
-              "text": "Danger zone"
+              }
             },
             {
               "component": "text",
+              "text": "Deleting a project removes all of its data permanently.",
               "props": {
                 "as": "p"
-              },
-              "text": "Deleting a project removes all of its data permanently."
+              }
             },
             {
               "component": "button",
@@ -601,18 +601,18 @@
             {
               "component": "text",
               "id": "title",
+              "text": "Book a consultation",
               "props": {
                 "type": "display-3"
-              },
-              "text": "Book a consultation"
+              }
             },
             {
               "component": "text",
               "id": "intro",
+              "text": "Pick a time that works. Your name is required to hold the slot.",
               "props": {
                 "type": "body"
-              },
-              "text": "Pick a time that works. Your name is required to hold the slot."
+              }
             },
             {
               "component": "text-input",
@@ -626,10 +626,10 @@
             {
               "component": "text",
               "id": "status",
+              "text": "Pick a time to begin.",
               "props": {
                 "type": "supporting"
-              },
-              "text": "Pick a time to begin."
+              }
             },
             {
               "component": "button",
@@ -692,10 +692,10 @@
             {
               "component": "text",
               "id": "title",
+              "text": "Weeknight pasta",
               "props": {
                 "type": "display-3"
-              },
-              "text": "Weeknight pasta"
+              }
             },
             {
               "component": "badge",
@@ -708,10 +708,10 @@
             {
               "component": "text",
               "id": "servings-label",
+              "text": "Servings: 2",
               "props": {
                 "type": "body"
-              },
-              "text": "Servings: 2"
+              }
             },
             {
               "component": "button",
@@ -785,10 +785,10 @@
             {
               "component": "text",
               "id": "status",
+              "text": "Edit servings or add a constraint.",
               "props": {
                 "type": "supporting"
-              },
-              "text": "Edit servings or add a constraint."
+              }
             },
             {
               "component": "button",
