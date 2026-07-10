@@ -737,7 +737,32 @@
                   "Ingredient",
                   "Amount"
                 ],
-                "data": [],
+                "data": [
+                  {
+                    "cells": [
+                      "Spaghetti",
+                      "180 g"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Pancetta",
+                      "80 g"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Parmesan",
+                      "50 g"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Cherry tomatoes",
+                      "240 g"
+                    ]
+                  }
+                ],
                 "density": "compact"
               }
             },
