@@ -4,6 +4,10 @@
 
 Think of it as OpenAPI for design systems.
 
+> Part of the [dspack ecosystem](https://github.com/aestheticfunction) — the organization profile has the full map of how the repositories fit together.
+>
+> **Kind:** specification (spec, schemas, examples, validation harness — not an npm package) · **Audience:** design-system practitioners and tool implementers · **Neighbors:** consumed by [ds-mcp](https://github.com/aestheticfunction/ds-mcp), [dspack-gen](https://github.com/aestheticfunction/dspack-gen), [dspack-emit](https://github.com/aestheticfunction/dspack-emit), and [dspack-studio](https://github.com/aestheticfunction/dspack-studio); bootstrapped from code by [dspack-export](https://github.com/aestheticfunction/dspack-export)
+
 ---
 
 > **Status: v0.4 draft available.**
@@ -88,13 +92,17 @@ The spec evolves against evidence, not speculation. Every milestone runs 216-run
 
 ### Producing dspack files
 
-[dspack-export](https://github.com/aestheticfunction/dspack-export) (experimental) generates a dspack v0.2 file from a React + Tailwind/shadcn codebase: components and props (including cva variant enums and their defaults), semantic color and radius tokens from CSS custom properties, dark-theme overrides, layout breakpoints, and React import bindings. It is a snapshot generator. Hand-authored sections such as `patterns`, `antiPatterns`, `whenToUse`, `accessibility`, and `constraints` remain yours to write; an exporter can extract facts, but the institutional knowledge that makes a dspack file valuable to agents comes from your team.
+[dspack-export](https://github.com/aestheticfunction/dspack-export) (experimental) generates a dspack v0.2 file from a React + Tailwind/shadcn or Vue 3 + Vuetify 3 codebase: components and props (including cva variant enums and their defaults, and Vue `defineProps`/emits/slots), semantic color and radius tokens from CSS custom properties or an imported DTCG design-token file, dark-theme overrides, layout breakpoints, and framework import bindings. It is a snapshot generator. Hand-authored sections such as `patterns`, `antiPatterns`, `whenToUse`, `accessibility`, and `constraints` remain yours to write; an exporter can extract facts, but the institutional knowledge that makes a dspack file valuable to agents comes from your team.
 
 dspack files can also simply be written by hand — the [shadcn/ui example](examples/shadcn-ui.dspack.json) in this repository was authored that way. A valid document needs only `dspack` and `name`.
 
 ### Consuming dspack files
 
 [ds-mcp](https://github.com/aestheticfunction/ds-mcp) is the reference implementation of dspack. It is a read-only [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server that loads a dspack file and exposes your design system as tools AI coding agents can query at coding time. It supports dspack v0.1 through v0.4; the generation tools (`get-generation-context`, `validate-ui`) require v0.3 or v0.4.
+
+[dspack-gen](https://github.com/aestheticfunction/dspack-gen) is the generation-and-governance pipeline: it compiles a contract into generation context for a model, lints what the model produces against the contract's typed rules (the S1–S3 gates), applies bounded repair, and audits every run. [dspack-emit](https://github.com/aestheticfunction/dspack-emit) is the deterministic emitter: it projects governed surfaces and contract catalogs onto rendering protocols (A2UI and json-render), behind its own validation gates.
+
+[dspack-studio](https://github.com/aestheticfunction/dspack-studio) is the flagship experience that runs this whole chain end to end — agent generation under a contract, gates, repair, and rendering, with every step recorded and inspectable. To see the ecosystem working before reading any further, the hosted replay lives at [studio.aesthetic-function.com](https://studio.aesthetic-function.com).
 
 ds-mcp is one way to consume a dspack file, not the only way. The format is independent of MCP, independent of any specific AI agent or orchestration framework, and independent of any particular runtime environment. (On why the reference implementation is deliberately not the center of gravity, see [DESIGN.md](./DESIGN.md).)
 
