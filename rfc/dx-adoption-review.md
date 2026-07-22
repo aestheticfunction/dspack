@@ -216,3 +216,52 @@ This RFC is a design document; accepting it commits the org to the DX-series ord
 Owner decisions this RFC leaves open: aesthetic-function's status (§4.2); whether the @astryxdesign/@a2ui pins are deliberately frozen (§5.5); the pin policy itself (§5.5); and sign-off on the DX-3 three-state boundary design before any bootstrap implementation.
 
 **Verification:** every fact in §§1–5 carries a file/line or PR reference; the five highest-leverage claims (the v0.2 hard-code, the tool-count contradiction, the stale M1 sentence, the git pin, the filename collision) were independently re-verified in source during this review.
+
+---
+
+## Implementation status (updated 2026-07-22)
+
+| Milestone | Status |
+|---|---|
+| DX-0 · Ops debt | ✅ Complete — ds-mcp 0.3.2 released on the exact dspack-gen v0.1.2 tag commit; studio range mismatch resolved (stale drift, not isolation); all synchronization and pin-drift signals green. |
+| DX-1 · Truth & wayfinding | ✅ Complete — D1–D7 resolved (D4 via compatibility-aware rename); breadcrumb + charter in every public README; studio backlinked; ds-mcp docs single-sourced; owner decision recorded: **aesthetic-function is paused**. All links and quick-starts executed from clean environments. |
+| DX-2 · The adoption guide | ✅ Complete — [`ADOPTING.md`](../ADOPTING.md) (12 steps, each labeled automated / human review / design decision) and [dspack-emit `docs/PROFILES.md`](https://github.com/aestheticfunction/dspack-emit/blob/main/docs/PROFILES.md); verified by executing the guide end to end from clean checkouts, with the walkthrough's clarifications folded back before completion. |
+| DX-3 · Bootstrap parity | ▶ Next — **design first, then code**, per this RFC's DX-3 definition. |
+
+### Correction the roadmap inherits (from DX-2)
+
+This RFC's §2 step 12 and §6 assumed rendering a new design system requires
+hand-editing `dspack-emit/src/transform/profiles.ts`. DX-2 established that
+is wrong for adopters: **profiles are pure data authored in the consumer's
+own codebase against the published package** (dspack-studio's
+`astryx-profile.ts` does exactly this). The in-repo profile is only for
+ecosystem-canonical contracts. `ADOPTING.md` and `PROFILES.md` are the
+canonical description of the adoption journey from here; where this RFC's
+§2 table and those guides disagree, the guides win.
+
+### DX-3 design inputs from the DX-2 walkthrough
+
+Evidence, not implementation. The first DX-3 deliverable is a design that
+addresses these; none of them is to be coded before that design exists.
+
+1. **No standalone validation entry point** (evidence-backed): the only way
+   to validate an adopter contract is copying it into a dspack checkout's
+   `examples/` directory (`ADOPTING.md` step 10 documents this honestly).
+   The design must decide how validation is surfaced independently of a
+   checkout — options (published harness, `validate --file` flag, separate
+   CLI) are deliberately **not** chosen here.
+2. **dspack-export's unpublished, v0.2-emitting state is the primary
+   bootstrap bottleneck** (confirmed in practice): install-from-source and
+   the manual version relabel were the only mechanical rough edges in an
+   otherwise smooth Phase 1.
+3. **Output naming surprise** (documented, not solved): the output filename
+   derives from `package.json`'s `name` with a placeholder fallback.
+   Recorded for the DX-3 design; deliberately not patched ahead of it.
+4. **Preservation invariant** (positive finding): the validated workflow —
+   *snapshot → commit → enrich the committed copy → never regenerate over
+   enrichments* — is now the documented behavioral contract in
+   `ADOPTING.md`. Any DX-3 regeneration design (including the
+   refuse-by-default overwrite guard this RFC already requires) must
+   preserve exactly this shape; the three-state boundary (generated
+   vocabulary / visibly incomplete scaffold / governance-complete) is
+   designed against it.
