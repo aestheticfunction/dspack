@@ -19,3 +19,13 @@ jobs:
         run: npm run validate
       - name: Negative fixtures (must all be rejected)
         run: npm run validate -- --fixtures negative
+      - name: File mode accepts a valid document
+        run: npm run validate -- --file examples/shadcn-ui.dspack.json
+      - name: File mode rejects an invalid document
+        # Guards the fail-first behavior: the pre---file harness silently
+        # ignored the flag and exited 0 on this exact invocation.
+        run: |
+          if npm run validate -- --file fixtures/negative/rule-unknown-component-ref.dspack.json; then
+            echo "file mode unexpectedly accepted a negative fixture" >&2
+            exit 1
+          fi

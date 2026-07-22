@@ -28,7 +28,7 @@ there.)
 | # | Step | Mode |
 |---|------|------|
 | 1 | [Extract a snapshot from your codebase](#step-1--extract-a-snapshot) | 🤖 Automated |
-| 2 | [Set the version to the current spec](#step-2--set-the-version) | 🤖 Automated |
+| 2 | [~~Set the version to the current spec~~](#step-2--set-the-version) — retired; snapshots declare it | 🤖 Automated |
 | 3 | [Review the snapshot against reality](#step-3--review-the-snapshot) | 👀 Human review |
 | 4 | [Author component guidance](#step-4--author-component-guidance) | ⚖️ Design decision |
 | 5 | [Define categories and tag components](#step-5--define-categories) | ⚖️ Design decision |
@@ -40,7 +40,7 @@ there.)
 | 11 | [Serve it to agents](#step-11--serve-it-to-agents) | 🤖 Automated |
 | 12 | [Generate, lint, and render](#step-12--generate-lint-render) | 🤖 Automated (rendering profile: ⚖️) |
 
-Steps 1–2 assume a React + Tailwind/shadcn or Vue 3 + Vuetify 3 codebase
+Step 1 assumes a React + Tailwind/shadcn or Vue 3 + Vuetify 3 codebase
 (what [dspack-export](https://github.com/aestheticfunction/dspack-export)
 currently supports). For any other stack, skip to
 [Writing the snapshot by hand](#writing-the-snapshot-by-hand) — a valid
@@ -53,16 +53,16 @@ was written entirely by hand.
 
 ### Step 1 · Extract a snapshot — 🤖 Automated
 
-dspack-export is experimental and not yet on npm; install from source:
-
 ```bash
-git clone https://github.com/aestheticfunction/dspack-export
-cd dspack-export && npm install && npm run build && npm link
+npm install -g @aestheticfunction/dspack-export
 
 cd /path/to/your/design-system
 dspack-export init        # detects conventions, writes dspack-export.config.json
 dspack-export generate --config dspack-export.config.json
 ```
+
+(Installing from a source clone — `npm install && npm run build && npm link`
+in a checkout — works identically.)
 
 You get a `<name>.dspack.json` (named from your `package.json` name, or a
 placeholder if there isn't one) containing everything observable from
@@ -74,27 +74,26 @@ what generated it. If your tokens live in Figma or Tokens Studio, export them
 to a DTCG file and point the config's `tokens` field at it — the import is
 file-based; no tool integration or network involved.
 
-Two properties of the output matter later:
+Three properties of the output matter later:
 
 - It is **deterministic** — same input, same bytes — so you can commit it and
   diff regenerations.
-- Its metadata warns that hand-authored sections **will be overwritten on
-  regeneration**. Treat the snapshot as a one-shot starting point: commit it,
-  then enrich the committed copy. Do not regenerate over your enrichments.
+- It carries a non-semantic `metadata["x-bootstrap"]` **ledger** recording
+  which sections the tool generated (with content hashes) and which
+  governance surfaces await your authorship. It affects nothing downstream;
+  once your contract is fully yours, delete it — after which the tool
+  refuses to touch the file at all.
+- **Regeneration never destroys your work — guaranteed, not advised.** The
+  workflow is: commit the snapshot, then enrich the committed copy. If you
+  run `generate` against a file containing anything you authored (or any
+  file without the ledger), it refuses, says why, and points you at
+  `--out` for writing a fresh snapshot elsewhere to compare by hand.
 
-### Step 2 · Set the version to the current spec — 🤖 Automated
+### Step 2 · Set the version — retired
 
-The snapshot declares `"dspack": "0.2"`. The spec's versions are strictly
-additive — a v0.2-shaped document is a valid v0.4 document — so update the
-label (and, if present, the `$schema` pointer) to the current version:
-
-```json
-{ "dspack": "0.4", ... }
-```
-
-That is the whole step. Nothing else changes. The governance blocks you add
-in Phase 2 (`categories`, `intents`, `rules`, `examples`) exist only from
-v0.3/v0.4, which is why the label moves before you start writing them.
+Nothing to do: snapshots declare the current spec version (`"dspack":
+"0.4"`) directly. (This step existed when the tool emitted the older v0.2
+shape; the number is kept so later steps keep their names.)
 
 ### Step 3 · Review the snapshot — 👀 Human review
 
@@ -261,24 +260,24 @@ reference for what each block looks like fully populated.
 
 ### Step 10 · Validate — 🤖 Automated
 
-The validation harness lives in this repository and runs over
-`examples/*.dspack.json`. Point it at your contract by dropping the file
-into a clean checkout's `examples/` directory:
+```bash
+npx -p @aestheticfunction/dspack-spec dspack-validate --file your-system.dspack.json
+```
+
+Or, from a checkout of this repository:
 
 ```bash
 git clone https://github.com/aestheticfunction/dspack
 cd dspack && npm ci
-cp /path/to/your-system.dspack.json examples/
-npm run validate
+npm run validate -- --file /path/to/your-system.dspack.json
 ```
 
-You get, per document: schema validation for its declared version,
-back-compat (the additive guarantee), governance consistency (unique ids;
-intent, component, and example references resolve; every example surface
-passes S1 + S2), and categories consistency. Fix what it reports; re-run
-until green. (Your file stays local — `examples/` in your checkout is just
-where the harness looks. A standalone `validate --file` entry point is a
-known gap on the roadmap.)
+Both are the same validator — the published bin is a front-end over this
+repository's harness, never a fork. You get, per document: schema
+validation for its declared version, back-compat (the additive guarantee),
+governance consistency (unique ids; intent, component, and example
+references resolve; every example surface passes S1 + S2), and categories
+consistency. Fix what it reports; re-run until green.
 
 ### Step 11 · Serve it to agents — 🤖 Automated
 
