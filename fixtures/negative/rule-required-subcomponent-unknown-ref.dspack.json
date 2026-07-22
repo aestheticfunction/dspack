@@ -1,0 +1,62 @@
+{
+  "dspack": "0.3",
+  "name": "negative-fixture",
+  "components": {
+    "button": {
+      "name": "Button",
+      "description": "A button.",
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": [
+            "default",
+            "destructive"
+          ]
+        }
+      }
+    },
+    "alert-dialog": {
+      "name": "AlertDialog",
+      "description": "A confirmation dialog.",
+      "composition": {
+        "subComponents": [
+          {
+            "id": "alert-dialog-title",
+            "name": "AlertDialogTitle"
+          },
+          {
+            "id": "alert-dialog-cancel",
+            "name": "AlertDialogCancel"
+          }
+        ]
+      }
+    }
+  },
+  "intents": [
+    {
+      "id": "destructive-action",
+      "description": "Irreversible operations."
+    }
+  ],
+  "_comment": "CONSISTENCY: requiredSubComponents references 'ghost-panel', which is declared neither as a top-level component nor as a composition sub-component. (Ids declared as EITHER kind resolve — descendants match by node component id; see rule.review-offers-alternatives in examples/astryx.dspack.json for the top-level-component case and rule.alertdialog-requires-cancel in examples/shadcn-ui.dspack.json for the sub-component case.)",
+  "rules": [
+    {
+      "id": "rule.fixture",
+      "severity": "must",
+      "rationale": "Fixture rationale.",
+      "type": "required-composition",
+      "appliesTo": {
+        "intents": [
+          "destructive-action"
+        ]
+      },
+      "component": "alert-dialog",
+      "requiredSubComponents": [
+        {
+          "id": "ghost-panel",
+          "min": 1
+        }
+      ]
+    }
+  ]
+}

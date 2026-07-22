@@ -243,12 +243,18 @@ function checkGovernance(doc, validateSurface) {
     for (const { kind, id } of ruleComponentRefs(rule)) {
       const resolvesToComponent = vocab.components.has(id);
       const resolvesToSub = vocab.subComponents.has(id);
+      // `requiredSubComponents` entries match descendant NODES by component id
+      // at lint time (spec §5), so the id may be declared as a top-level
+      // component or as a composition sub-component. Resolution here only
+      // guards the vocabulary; satisfaction (matching descendants beneath each
+      // governed node) is the S3 gate's concern, not this harness's.
+      // `on` remains sub-component-only (spec §5: "the sub-component id `on`").
       const ok =
-        kind === "requiredSubComponents" || kind === "on"
+        kind === "on"
           ? resolvesToSub
           : kind === "component"
             ? resolvesToComponent
-            : resolvesToComponent || resolvesToSub; // componentOrSub, require, forbid, forbiddenDescendants
+            : resolvesToComponent || resolvesToSub; // requiredSubComponents, componentOrSub, require, forbid, forbiddenDescendants
       if (!ok) errors.push(`${rule.id}: ${kind} reference '${id}' does not resolve in the contract`);
     }
     for (const ex of rule.examples ?? []) {
