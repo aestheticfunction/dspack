@@ -175,6 +175,11 @@ present and equal to a member of `oneOf`; when `on` is given, **every** descenda
 the sub-component id `on` MUST satisfy the prop constraint, and at least one such descendant
 MUST exist.
 
+A `requiredSubComponents` entry's `id` MUST be declared in the contract — either as a
+top-level component or as a composition sub-component; descendants match by node component
+id in both cases. Declaration alone never satisfies the entry: satisfaction requires the
+matching descendants described above, beneath each governed node.
+
 **`forbidden-composition`** — structure and values no instance of a component may contain.
 Fields: `component: string`, `forbiddenDescendants?: string[]`,
 `forbiddenProps?: {on?, prop, values}[]` (at least one of the two present).
