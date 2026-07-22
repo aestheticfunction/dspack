@@ -79,6 +79,12 @@ an extension key (F7 makes this schema-legal today, zero spec change):
 - Humans delete entries from `awaitingAuthorship` as they author those
   surfaces. Tools never police that list; it is a checklist for people,
   rendered meaningful by the validator's existing consistency checks.
+- **The ledger is non-semantic.** It exists solely to support bootstrap
+  tooling and regeneration decisions. Its presence or absence does not
+  affect the meaning or validity of a dspack contract, and removing it
+  does not change contract semantics — every consumer (ds-mcp, dspack-gen,
+  dspack-emit, the validator's semantic checks) behaves identically with
+  or without it.
 
 ### State C — governance-complete (human-owned)
 
