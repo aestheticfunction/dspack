@@ -7,6 +7,8 @@ Think of it as OpenAPI for design systems.
 > Part of the [dspack ecosystem](https://github.com/aestheticfunction) — the organization profile has the full map of how the repositories fit together.
 >
 > **Kind:** specification (spec, schemas, examples, validation harness — not an npm package) · **Audience:** design-system practitioners and tool implementers · **Neighbors:** consumed by [ds-mcp](https://github.com/aestheticfunction/ds-mcp), [dspack-gen](https://github.com/aestheticfunction/dspack-gen), [dspack-emit](https://github.com/aestheticfunction/dspack-emit), and [dspack-studio](https://github.com/aestheticfunction/dspack-studio); bootstrapped from code by [dspack-export](https://github.com/aestheticfunction/dspack-export)
+>
+> **Adopting dspack for an existing design system?** The complete journey — snapshot, governance authoring, validation, serving — is walked step by step in [ADOPTING.md](./ADOPTING.md).
 
 ---
 
