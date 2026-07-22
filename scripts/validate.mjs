@@ -30,6 +30,13 @@
  *   exits 0 iff every fixture is rejected (each must fail schema validation
  *   or a consistency check). A fixture that unexpectedly passes is a harness
  *   defect and fails the run.
+ *
+ * File mode (`npm run validate -- --file <path> [<path>...]`, also the
+ * `dspack-validate` bin):
+ *   Runs the identical validation (schema, back-compat, governance
+ *   consistency, categories) over the named document(s) instead of
+ *   examples/. This is the standalone surface from rfc/dx3-bootstrap-design
+ *   §4 — a front-end over the same function, never a second validator.
  */
 import { readFileSync, readdirSync } from "node:fs";
 import { join, dirname, basename } from "node:path";
@@ -321,6 +328,18 @@ function listDocs(dir) {
 function main() {
   const args = process.argv.slice(2);
   const negativeMode = args.includes("--fixtures") && args[args.indexOf("--fixtures") + 1] === "negative";
+  // --file <path> [<path>...]: every argument after the flag that does not
+  // start with "-" names a document to validate.
+  let fileArgs = null;
+  const fileFlag = args.indexOf("--file");
+  if (fileFlag !== -1) {
+    fileArgs = [];
+    for (let i = fileFlag + 1; i < args.length && !args[i].startsWith("-"); i++) fileArgs.push(args[i]);
+    if (fileArgs.length === 0) {
+      console.error("usage: validate --file <path.dspack.json> [<path>...]");
+      process.exit(1);
+    }
+  }
 
   const { validators, failures } = compileSchemas();
   if (!validators.has(SURFACE_SCHEMA)) failures.push(`${SURFACE_SCHEMA}: missing`);
@@ -355,7 +374,7 @@ function main() {
     return;
   }
 
-  const docs = listDocs(EXAMPLES_DIR);
+  const docs = fileArgs ?? listDocs(EXAMPLES_DIR);
   if (docs.length === 0) {
     console.error(`no examples found in ${EXAMPLES_DIR}`);
     process.exit(1);
@@ -404,11 +423,12 @@ function main() {
       console.log(`  ✔ ${basename(path)} (dspack ${doc.dspack})`);
     }
   }
+  const label = fileArgs ? "documents" : "examples";
   if (failed) {
-    console.error(`examples FAIL (${failed} document(s) invalid)`);
+    console.error(`${label} FAIL (${failed} document(s) invalid)`);
     process.exit(1);
   }
-  console.log(`examples PASS (${docs.length} document(s))`);
+  console.log(`${label} PASS (${docs.length} document(s))`);
 }
 
 main();
