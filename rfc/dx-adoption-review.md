@@ -226,7 +226,7 @@ Owner decisions this RFC leaves open: aesthetic-function's status (§4.2); wheth
 | DX-0 · Ops debt | ✅ Complete — ds-mcp 0.3.2 released on the exact dspack-gen v0.1.2 tag commit; studio range mismatch resolved (stale drift, not isolation); all synchronization and pin-drift signals green. |
 | DX-1 · Truth & wayfinding | ✅ Complete — D1–D7 resolved (D4 via compatibility-aware rename); breadcrumb + charter in every public README; studio backlinked; ds-mcp docs single-sourced; owner decision recorded: **aesthetic-function is paused**. All links and quick-starts executed from clean environments. |
 | DX-2 · The adoption guide | ✅ Complete — [`ADOPTING.md`](../ADOPTING.md) (12 steps, each labeled automated / human review / design decision) and [dspack-emit `docs/PROFILES.md`](https://github.com/aestheticfunction/dspack-emit/blob/main/docs/PROFILES.md); verified by executing the guide end to end from clean checkouts, with the walkthrough's clarifications folded back before completion. |
-| DX-3 · Bootstrap parity | ▶ Next — **design first, then code**, per this RFC's DX-3 definition. |
+| DX-3 · Bootstrap parity | ✅ Complete — design accepted ([dx3-bootstrap-design.md](./dx3-bootstrap-design.md)), implemented, published, and verified. See the completion record below. |
 
 ### Correction the roadmap inherits (from DX-2)
 
@@ -265,3 +265,43 @@ addresses these; none of them is to be coded before that design exists.
    preserve exactly this shape; the three-state boundary (generated
    vocabulary / visibly incomplete scaffold / governance-complete) is
    designed against it.
+
+### DX-3 completion record (closed 2026-07-23)
+
+The final milestone record, preserved as accepted by the owner.
+
+- **Published artifacts:** `@aestheticfunction/dspack-export@0.3.0`
+  (manual bootstrap publish; tarball byte-identical to the `v0.3.0` tag
+  pack) and `@aestheticfunction/dspack-spec@0.4.1` (published by the
+  tag-triggered **OIDC trusted-publishing** workflow, carrying SLSA
+  provenance attestations; contents file-for-file identical to the
+  `v0.4.1` tag pack). Metadata, contents, binaries, tags, integrity, and
+  clean-install behavior all verified.
+- **Defect caught by verification:** 0.4.0 shipped `ajv`/`ajv-formats` as
+  devDependencies, crashing `dspack-validate` on every clean install
+  while passing every checkout test. Fixed in 0.4.1 (dspack#31); 0.4.0 is
+  deprecated on the registry. Both release workflows now carry a
+  **pack-and-install boundary step** (install the packed tarball into an
+  empty project and run the bin as an end user) guarding the defect
+  class.
+- **Trusted-publisher status:** dspack-spec — exercised and proven
+  (provenance on 0.4.1). dspack-export — registered and audited;
+  exercised by its next legitimate versioned release, recorded in its
+  CHANGELOG.
+- **Design invariants held in practice:** regeneration never destroys
+  human-authored content (refusal table exercised end to end); every
+  refusal explains itself; one validator with two front-ends (the bin is
+  `scripts/validate.mjs` verbatim); the `x-bootstrap` ledger is
+  non-semantic (proven identical behavior through ds-mcp and dspack-gen);
+  ADOPTING.md updated in lockstep with every behavior change.
+- **Operational note (release engineering):** a successful npm trusted
+  publish may temporarily *appear* to fail due to registry
+  read-after-write propagation. Before retrying an apparently failed
+  publication, check the package version, `dist.attestations`, and
+  registry availability directly; do not retry solely on a post-publish
+  metadata lookup failure — a second run may hit an immutable-version
+  conflict. (Also recorded in the release workflows' comments.)
+
+The DX series (DX-0 through DX-3) is complete. Remaining owner-decision
+backlog (pin policy; @astryxdesign/@a2ui external-pin freeze) belongs to
+DX-4 and is intentionally outside this record.
