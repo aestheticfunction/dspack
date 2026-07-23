@@ -29,3 +29,14 @@ jobs:
             echo "file mode unexpectedly accepted a negative fixture" >&2
             exit 1
           fi
+      - name: Pack-and-install boundary (bin works without devDependencies)
+        # Guards the 0.4.0 defect: ajv/ajv-formats lived in devDependencies,
+        # so dspack-validate crashed on every clean install while passing in
+        # every checkout (npm ci installs devDeps). Install the packed
+        # tarball into an empty project and run the bin as an end user would.
+        run: |
+          tarball="$PWD/$(npm pack --silent | tail -1)"
+          dir="$(mktemp -d)"
+          cd "$dir" && npm init -y >/dev/null
+          npm install "$tarball"
+          npx dspack-validate --file node_modules/@aestheticfunction/dspack-spec/examples/shadcn-ui.dspack.json
