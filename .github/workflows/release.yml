@@ -15,6 +15,14 @@ name: release
 #   - tag must equal the package.json version
 #   - full validation (positive + negative fixtures + --file both ways)
 #     runs before publish
+#
+# Operational note (v0.4.1 incident): a successful trusted publish may
+# temporarily APPEAR to fail because of registry read-after-write
+# propagation — the publish lands but the CLI's post-publish lookup 404s.
+# Before retrying an apparently failed publication, check the package
+# version, dist.attestations, and registry availability directly. Do not
+# retry solely on a post-publish metadata lookup failure: a second run
+# may hit an immutable-version conflict ("cannot publish over").
 
 on:
   push:
