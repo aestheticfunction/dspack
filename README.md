@@ -28,11 +28,19 @@ https://github.com/user-attachments/assets/510a781b-4214-49b3-b997-9cbecdc36961
 
 ## Try it in five minutes
 
-The fastest way to feel what a contract changes is to put one in front of an agent:
+Start with the specification's own harness. It compiles every schema and
+validates the bundled examples, so one command shows you the spec is
+self-consistent and what a clean result reads like:
 
 ```bash
-npm install -g @aestheticfunction/ds-mcp
+npx -y -p @aestheticfunction/dspack-spec dspack-validate
+```
+
+Then put a real contract in front of an agent:
+
+```bash
 curl -L https://raw.githubusercontent.com/aestheticfunction/dspack/main/examples/shadcn-ui.dspack.json -o shadcn-ui.dspack.json
+npm install -g @aestheticfunction/ds-mcp
 ds-mcp --dspack ./shadcn-ui.dspack.json
 ```
 
@@ -94,7 +102,7 @@ The spec evolves against evidence, not speculation. Every milestone runs 216-run
 
 ### Producing dspack files
 
-[dspack-export](https://github.com/aestheticfunction/dspack-export) (experimental) generates a dspack v0.2 file from a React + Tailwind/shadcn or Vue 3 + Vuetify 3 codebase: components and props (including cva variant enums and their defaults, and Vue `defineProps`/emits/slots), semantic color and radius tokens from CSS custom properties or an imported DTCG design-token file, dark-theme overrides, layout breakpoints, and framework import bindings. It is a snapshot generator. Hand-authored sections such as `patterns`, `antiPatterns`, `whenToUse`, `accessibility`, and `constraints` remain yours to write; an exporter can extract facts, but the institutional knowledge that makes a dspack file valuable to agents comes from your team.
+[dspack-export](https://github.com/aestheticfunction/dspack-export) (experimental) generates a spec-current dspack file from a React + Tailwind/shadcn or Vue 3 + Vuetify 3 codebase: components and props (including cva variant enums and their defaults, and Vue `defineProps`/emits/slots), semantic color and radius tokens from CSS custom properties or an imported DTCG design-token file, dark-theme overrides, layout breakpoints, and framework import bindings. It is a snapshot generator. Hand-authored sections such as `patterns`, `antiPatterns`, `whenToUse`, `accessibility`, and `constraints` remain yours to write; an exporter can extract facts, but the institutional knowledge that makes a dspack file valuable to agents comes from your team.
 
 dspack files can also simply be written by hand — the [shadcn/ui example](examples/shadcn-ui.dspack.json) in this repository was authored that way. A valid document needs only `dspack` and `name`.
 
