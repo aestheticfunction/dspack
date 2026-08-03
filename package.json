@@ -1,11 +1,12 @@
 {
   "name": "@aestheticfunction/dspack-spec",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "The dspack specification: spec documents, JSON Schemas, reference example contracts, and the validation harness (bin: dspack-validate).",
   "type": "module",
   "license": "Apache-2.0",
   "scripts": {
-    "validate": "node scripts/validate.mjs"
+    "validate": "node scripts/validate.mjs",
+    "check:lib": "node scripts/check-lib-boundary.mjs"
   },
   "devDependencies": {},
   "engines": {
@@ -15,6 +16,7 @@
     "dspack-validate": "scripts/validate.mjs"
   },
   "files": [
+    "lib/",
     "schema",
     "scripts/validate.mjs",
     "spec",
