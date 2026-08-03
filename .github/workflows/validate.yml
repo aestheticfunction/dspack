@@ -19,6 +19,8 @@ jobs:
         run: npm run validate
       - name: Negative fixtures (must all be rejected)
         run: npm run validate -- --fixtures negative
+      - name: lib boundary (pure imports; corpus through the import surface)
+        run: npm run check:lib
       - name: File mode accepts a valid document
         run: npm run validate -- --file examples/shadcn-ui.dspack.json
       - name: File mode rejects an invalid document

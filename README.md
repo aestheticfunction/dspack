@@ -116,6 +116,34 @@ dspack files can also simply be written by hand — the [shadcn/ui example](exam
 
 ds-mcp is one way to consume a dspack file, not the only way. The format is independent of MCP, independent of any specific AI agent or orchestration framework, and independent of any particular runtime environment. (On why the reference implementation is deliberately not the center of gravity, see [DESIGN.md](./DESIGN.md).)
 
+### Validating dspack files programmatically
+
+The validation harness behind the `dspack-validate` CLI is importable —
+pure functions, schemas injected, so the identical checks run under Node or
+in a browser bundle. The CLI is a front-end over this one implementation,
+never a second validator:
+
+```js
+import {
+  compileSchemaSet,
+  documentReport,
+} from "@aestheticfunction/dspack-spec/lib/validate.mjs";
+import v04 from "@aestheticfunction/dspack-spec/schema/dspack.v0.4.schema.json" with { type: "json" };
+import surface from "@aestheticfunction/dspack-spec/schema/dspack.surface.v0_1.schema.json" with { type: "json" };
+
+const { validators } = compileSchemaSet({
+  "dspack.v0.4.schema.json": v04,
+  "dspack.surface.v0_1.schema.json": surface,
+});
+const report = documentReport(doc, validators);
+// { valid, version, errors } — schema gate, governance consistency,
+// categories, and S1/S2 over the contract's own examples.
+```
+
+Types ship alongside (`lib/validate.d.ts`). CI's `check:lib` gate keeps the
+lib pure (ajv-only imports) and replays the full example + negative-fixture
+corpus through the import surface.
+
 If you want to build a dspack reader for a different use case, the format is available under the Apache-2.0 license. Potential directions include:
 
 - Readers for non-MCP agentic frameworks (LangChain, AutoGen, or similar)
