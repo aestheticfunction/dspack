@@ -140,7 +140,7 @@ const report = documentReport(doc, validators);
 // categories, and S1/S2 over the contract's own examples.
 ```
 
-Types ship alongside (`lib/validate.d.ts`). CI's `check:lib` gate keeps the
+Types ship alongside (`lib/validate.d.mts`). CI's `check:lib` gate keeps the
 lib pure (ajv-only imports) and replays the full example + negative-fixture
 corpus through the import surface.
 
