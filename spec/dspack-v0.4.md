@@ -200,6 +200,52 @@ The anchoring node itself is not a descendant of itself: a component that belong
 forbidden category may still anchor the rule (as `alert-dialog` — itself an overlay —
 does above).
 
+### 4.3 `required-composition` — the `requiredCategories` field
+
+> **Amendment (2026-08-07), on measured evidence, lifted from §6.** The T1
+> representation milestone's Build evaluation (dspack-emit#31) produced
+> lint-clean surfaces whose `form-control` nodes carried literal text and no
+> interactive control at all — structurally valid, semantically empty form
+> composition that every gate passed and the emitter (correctly) refused. The
+> invariant "must contain an approved interactive control" is an OR across a
+> category's members; `requiredSubComponents` can only AND exact ids, and
+> category vocabulary existed only on the forbidden side. §6 anticipated
+> exactly this addition "when a real contract needs them, not before" — this
+> is that need, with the probe surfaces committed as evidence
+> (dspack-emit `eval/t1-build-matrix*.json`).
+
+```json
+{
+  "id": "rule.form-control-carries-control",
+  "type": "required-composition",
+  "severity": "must",
+  "component": "form-control",
+  "requiredCategories": [{ "id": "interactive", "min": 1 }],
+  "rationale": "A form-control represents the location of the user-editable control in a field…"
+}
+```
+
+`requiredCategories?: {id, min=1}[]` joins `requiredSubComponents` and
+`requiredProps` (at least one of the three MUST be present). Each entry's `id`
+MUST be registered in the document's `categories` — the same consistency check
+`forbiddenCategories` carries.
+
+**Normative evaluation semantics.** For **every** node matching `component`:
+each `requiredCategories` entry MUST have ≥ `min` descendants whose contract
+entry declares membership in category `id` (one finding per violated entry,
+located at the matching node). Membership is resolved through the contract's
+`categories` declarations at lint time, exactly as in §4.2. The check is
+**local to each matching node's descendants** — a member elsewhere in the
+surface satisfies nothing. Multiple entries are independently required (AND),
+matching `requiredSubComponents`; membership within one category is naturally
+OR across that category's components. The finding's message MUST name the
+required category and the count found, so repair feedback stays actionable
+without the contract in hand.
+
+No boolean expressions, `oneOf` groups, or predicates: a requirement a
+category cannot express is a missing category or a different rule, not a
+grammar extension.
+
 ## 5. Validation Gates
 
 S1, S2, and S3 are unchanged (v0.3 §8). In particular, S2 still checks the **full
@@ -215,9 +261,10 @@ Still not expressible in v0.4, recorded so the ceiling stays explicit:
 - **Ordering constraints** — "cancel appears before confirm in reading order."
 - **Cardinality beyond `min`** — no `max`, no exact counts.
 - **Token-usage and layout rules.**
-- **Category-based forms beyond forbidden descendants** — `require`/`forbid` by category
-  in `component-choice`, category-scoped `required-composition`. Add them when a real
-  contract needs them, not before.
+- **Category-based forms beyond §4.2 and §4.3** — `require`/`forbid` by category
+  in `component-choice`. Add them when a real contract needs them, not before.
+  (Category-scoped `required-composition` graduated to §4.3 on 2026-08-07, on the
+  T1 Build evidence — the first ceiling item to be lifted by measurement.)
 - **Soft/heuristic judgments** — out of scope; every v0.4 rule remains deterministic.
 
 Future types arrive additively per v0.3 §5.5; existing types' semantics are frozen.
