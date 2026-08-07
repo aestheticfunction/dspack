@@ -1,0 +1,23 @@
+{
+  "$schema": "https://aestheticfunction.github.io/dspack/schema/dspack.v0.4.schema.json",
+  "dspack": "0.4",
+  "name": "negative/required-categories-malformed",
+  "description": "requiredCategories entries are {id, min?} only: a bare string, a missing id, or min 0 must all fail schema validation.",
+  "version": "0.0.1",
+  "tokens": { "color": { "values": { "primary": { "value": "#3366ff" } } } },
+  "components": {
+    "field": { "name": "Field", "description": "A field wrapper.", "props": {}, "categories": ["form"] }
+  },
+  "categories": { "form": { "name": "Form", "description": "Form structure." } },
+  "intents": [ { "id": "data-entry", "name": "Data entry", "description": "Collect input." } ],
+  "rules": [
+    {
+      "id": "rule.malformed",
+      "type": "required-composition",
+      "severity": "must",
+      "component": "field",
+      "requiredCategories": [ { "min": 0 } ],
+      "rationale": "Malformed entry: no id, min below 1."
+    }
+  ]
+}

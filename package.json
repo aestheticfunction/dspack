@@ -1,6 +1,6 @@
 {
   "name": "@aestheticfunction/dspack-spec",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "The dspack specification: spec documents, JSON Schemas, reference example contracts, and the validation harness (bin: dspack-validate).",
   "type": "module",
   "license": "Apache-2.0",
