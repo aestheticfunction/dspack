@@ -259,6 +259,61 @@ territory, resolved through the contract at lint time. Generation schemas contin
 encode vocabulary and shape only (v0.3 §3) — neither categories nor any rule content
 belongs in them.
 
+### 5.1 S2 — sub-component containment
+
+> **Amendment (2026-08-07), on measured evidence.** Post-T3 Build evaluation
+> against the production contract (dspack-emit eval/, six scenarios) showed
+> 19% of generated nodes placing sub-components outside their declaring
+> compound — root-level `form-label`, `select-trigger` beside rather than
+> beneath `select`, bare `alert-dialog-content` duplicated next to a correctly
+> nested one. Every such surface passed S2 (membership only), passed S3
+> (no rule can express inverse containment: all four rule types anchor on a
+> container and constrain descendants, and nothing anchors at the root), and
+> then failed **terminally** at the emitter — after the repair loop, which
+> never saw a finding. Two of six scenarios died unrepaired on this class,
+> more than on any representation gap.
+
+A component id declared as a sub-component of a compound may appear in a
+surface **only within the subtree of an instance of a declaring compound**,
+unless the contract also declares that id as a top-level component (which is
+the contract's way of saying *independently usable*; no shipped contract
+does so today).
+
+This is a structural vocabulary invariant, not design-system judgment: the
+ownership relationship is already declared by `composition.subComponents`,
+the check is mechanically derivable from the contract, and the emitter
+already enforces the same relationship later and terminally. Placing it in
+S2 makes the defect visible to the repair loop. It is **not** an S3 rule and
+MUST NOT be authored as per-contract containment rules when the contract
+already declares the ownership.
+
+Normative semantics, per surface node whose component id is sub-declared:
+
+- **Owners** are exactly the compounds declaring the id in their
+  `composition.subComponents` — never inferred from names, prefixes,
+  adjacency, or examples. (Document-wide sub-id uniqueness — the existing
+  ambiguous-vocabulary refusal — means exactly one owner today; if a future
+  revision permits the same id under several compounds, that declaration set
+  *is* the owner set.)
+- The node passes iff **at least one owner appears in its ancestor chain**.
+  The owner may be any ancestor, not only the parent: arbitrary intermediate
+  descendants are permitted where the contract's semantics allow them.
+- A root-level sub-component and a sub placed as a *sibling* of its owner
+  are the same defect — no owner in the ancestor chain — and both refuse.
+- An id declared **both** as a top-level component and as a sub-component is
+  a component everywhere: containment does not apply to it.
+- The finding is pathed and MUST name the orphaned sub-component and its
+  declared owner(s), so a repair round can relocate it.
+
+S2 remains a check on **any** produced surface. Generation schemas continue
+to encode vocabulary and shape only — tightening a grammar to per-parent
+child branches is an optional engineering decision downstream of this spec,
+never a substitute for the gate.
+
+What v0.3 §8 excluded stays excluded: `acceptsChildren` semantics, non-enum
+prop value types, and sub-component nesting **order** remain outside S2.
+Containment is about *ownership*, not order.
+
 ## 6. Deliberate Ceiling
 
 Still not expressible in v0.4, recorded so the ceiling stays explicit:
