@@ -132,7 +132,7 @@ Fields:
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `component` | string | yes | Component **or sub-component** id whose instances are checked. This is the one rule type whose `component` accepts a sub-component id. |
+| `component` | string | yes | Component **or sub-component** id whose instances are checked. (Shared with §4.3's amended `required-composition`: both anchor on lint-time nodes, where sub-components appear as ordinary nodes.) |
 | `within` | string | no | Component or sub-component id scoping the check (see below). |
 | `requiredText` | `true` | one of these two | The node MUST carry non-empty text — its own `text` field by default; see `textScope`. |
 | `textScope` | `self` \| `subtree` | no (default `self`) | Where `requiredText` looks: `self` = the node's own `text` field only; `subtree` = direct text on the node **or any of its descendants** — for compound wrappers whose documented projections lift a label from within. Only meaningful with `requiredText`. |
@@ -228,7 +228,12 @@ does above).
 `requiredCategories?: {id, min=1}[]` joins `requiredSubComponents` and
 `requiredProps` (at least one of the three MUST be present). Each entry's `id`
 MUST be registered in the document's `categories` — the same consistency check
-`forbiddenCategories` carries.
+`forbiddenCategories` carries. With this amendment, `required-composition`'s
+`component` also accepts a **sub-component** id (as §4.1's `required-props`
+already did): the governed location of a category requirement is very often a
+compound's sub-component — `form-control` being the motivating case — and
+both types anchor on lint-time nodes, where sub-components appear as ordinary
+nodes.
 
 **Normative evaluation semantics.** For **every** node matching `component`:
 each `requiredCategories` entry MUST have ≥ `min` descendants whose contract
