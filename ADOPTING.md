@@ -27,18 +27,18 @@ there.)
 
 | # | Step | Mode |
 |---|------|------|
-| 1 | [Extract a snapshot from your codebase](#step-1--extract-a-snapshot) | 🤖 Automated |
-| 2 | [~~Set the version to the current spec~~](#step-2--set-the-version) — retired; snapshots declare it | 🤖 Automated |
-| 3 | [Review the snapshot against reality](#step-3--review-the-snapshot) | 👀 Human review |
-| 4 | [Author component guidance](#step-4--author-component-guidance) | ⚖️ Design decision |
-| 5 | [Define categories and tag components](#step-5--define-categories) | ⚖️ Design decision |
-| 6 | [Record patterns and anti-patterns](#step-6--patterns-and-anti-patterns) | ⚖️ Design decision |
-| 7 | [Name your intents](#step-7--name-your-intents) | ⚖️ Design decision |
-| 8 | [Write rules](#step-8--write-rules) | ⚖️ Design decision |
-| 9 | [Write worked examples and cross-link them](#step-9--worked-examples) | ⚖️ Design decision (machine-validated) |
-| 10 | [Validate the contract](#step-10--validate) | 🤖 Automated |
-| 11 | [Serve it to agents](#step-11--serve-it-to-agents) | 🤖 Automated |
-| 12 | [Generate, lint, and render](#step-12--generate-lint-render) | 🤖 Automated (rendering profile: ⚖️) |
+| 1 | [Extract a snapshot from your codebase](#step-1--extract-a-snapshot---automated) | 🤖 Automated |
+| 2 | [~~Set the version to the current spec~~](#step-2--set-the-version--retired) — retired; snapshots declare it | 🤖 Automated |
+| 3 | [Review the snapshot against reality](#step-3--review-the-snapshot---human-review) | 👀 Human review |
+| 4 | [Author component guidance](#step-4--author-component-guidance--) | ⚖️ Design decision |
+| 5 | [Define categories and tag components](#step-5--define-categories--) | ⚖️ Design decision |
+| 6 | [Record patterns and anti-patterns](#step-6--patterns-and-anti-patterns--) | ⚖️ Design decision |
+| 7 | [Name your intents](#step-7--name-your-intents--) | ⚖️ Design decision |
+| 8 | [Write rules](#step-8--write-rules--) | ⚖️ Design decision |
+| 9 | [Write worked examples and cross-link them](#step-9--worked-examples---machine-validated) | ⚖️ Design decision (machine-validated) |
+| 10 | [Validate the contract](#step-10--validate---automated) | 🤖 Automated |
+| 11 | [Serve it to agents](#step-11--serve-it-to-agents---automated) | 🤖 Automated |
+| 12 | [Generate, lint, and render](#step-12--generate-lint-render---rendering-profile-) | 🤖 Automated (rendering profile: ⚖️) |
 
 Step 1 assumes a React + Tailwind/shadcn or Vue 3 + Vuetify 3 codebase
 (what [dspack-export](https://github.com/aestheticfunction/dspack-export)

@@ -6,8 +6,9 @@ Versioned specification documents for dspack live in this directory.
 
 - [`dspack-v0.4.md`](./dspack-v0.4.md) — v0.4 specification (current draft, written as a
   delta over v0.3): component categories (contract-defined registry, membership metadata,
-  the `forbiddenCategories` rule form) and the `required-props` rule type ("this component
-  must carry named content directly")
+  the `forbiddenCategories` rule form), the `required-props` rule type ("this component
+  must carry named content directly"), and two amendments: `requiredCategories` (§4.3) and
+  S2 sub-component containment (§5.1)
 - [`migration-v0.3-to-v0.4.md`](./migration-v0.3-to-v0.4.md) — migration guide (v0.4 is
   strictly additive; includes the worked v0.4 deltas from the shadcn contract)
 - [`dspack-v0.3.md`](./dspack-v0.3.md) — v0.3 specification (written as a

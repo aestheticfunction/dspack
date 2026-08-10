@@ -33,9 +33,9 @@ three v0.3 rule types' semantics are frozen (v0.3 §5.5); enumerated
 ## Worked example: the v0.4 shadcn contract deltas
 
 The repository's [`examples/shadcn-ui.dspack.json`](../examples/shadcn-ui.dspack.json)
-shows all three additions in use.
+shows all four additions in use.
 
-**A registry of two categories, populated where the metadata already lived** (the
+**A registry of categories (the worked contract declares seven: interactive, overlay, form, layout, content, feedback, navigation), populated where the metadata already lived** (the
 `tags` fields sketched the taxonomy; categories make it referenceable by rules):
 
 ```json
